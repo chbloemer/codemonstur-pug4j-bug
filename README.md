@@ -1,4 +1,4 @@
 
-# HtmlCompiler example jade
+# Pug4J bug
 
-Compile a jade file to HTML and then use HTMLCompiler features to extend it further
+Correct pug results in exception saying file is outside the template directory.
