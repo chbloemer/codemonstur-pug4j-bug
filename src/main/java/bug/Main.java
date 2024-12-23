@@ -1,7 +1,9 @@
 package bug;
 
+import de.neuland.pug4j.Pug4J;
 import de.neuland.pug4j.PugConfiguration;
 import de.neuland.pug4j.template.FileTemplateLoader;
+import de.neuland.pug4j.template.PugTemplate;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,8 +19,8 @@ public class Main {
 
     public static void main(final String... args) throws IOException {
         final var rootPath = Paths.get("src/main").toAbsolutePath();
-        final PugFile template = loadTemplate(rootPath.toString(), "websrc/skeleton.pug");
-        System.out.println(template.render(new HashMap<>()));
+        final var template = loadTemplate(rootPath.toString(), "websrc/skeleton.pug");
+        System.out.println(Pug4J.render(template, new HashMap<>()));
 
 //        final var filePath = Paths.get("src/main/websrc/skeleton.pug");
 //        System.out.println(filePath.toAbsolutePath());
@@ -26,11 +28,7 @@ public class Main {
 //        System.out.println(html);
     }
 
-    private interface PugFile {
-        String render(Map<String, Object> model);
-    }
-
-    private static PugFile loadTemplate(final String rootPath, final String filePath) throws IOException {
+    private static PugTemplate loadTemplate(final String rootPath, final String filePath) throws IOException {
         final var templateFile = Paths.get(rootPath).resolve(filePath);
         if (!exists(templateFile)) throw new FileNotFoundException("No template found at " + templateFile);
         if (!isRegularFile(templateFile)) throw new IOException("Path to template is not a file " + templateFile);
@@ -40,9 +38,8 @@ public class Main {
 
         final var config = new PugConfiguration();
         config.setTemplateLoader(fileLoader);
-        final var template = config.getTemplate(toBaseName(templateFile));
 
-        return model -> config.renderTemplate(template, model);
+        return config.getTemplate(toBaseName(templateFile));
     }
 
     private static String toParentPath(final String filePath) {
