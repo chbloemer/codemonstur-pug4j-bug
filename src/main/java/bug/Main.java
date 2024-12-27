@@ -22,7 +22,7 @@ public class Main {
         final var template = loadTemplate(rootPath.toString(), "websrc/skeleton.pug");
         System.out.println(Pug4J.render(template, new HashMap<>()));
 
-//        final var filePath = Paths.get("src/main/websrc/skeleton.pug");
+//        final var filePath = Paths.get("src/main/websrc/index.pug");
 //        System.out.println(filePath.toAbsolutePath());
 //        final String html = Pug4J.render(filePath.toAbsolutePath().toString(), new HashMap<>());
 //        System.out.println(html);
@@ -48,7 +48,7 @@ public class Main {
 
     private static String toBaseName(final Path file) {
         final String filename = file.getFileName().toString();
-        return filename.substring(0, filename.indexOf('.'));
+        return "/"+filename;
     }
 
 }
